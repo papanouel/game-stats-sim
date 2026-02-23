@@ -102,7 +102,7 @@ function App() {
           <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4">
             <header>
               <h2 className="text-2xl font-bold text-gray-900">AP Economy Settings</h2>
-              <p className="text-gray-500">Configure global AP limits and bonuses for all archetypes</p>
+              <p className="text-gray-500">Configure total Attribute Points (AP) amount available.</p>
             </header>
             <EconomyPanel economy={economy} onEconomyChange={setEconomy} />
           </div>
@@ -112,7 +112,7 @@ function App() {
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
             <header>
               <h2 className="text-2xl font-bold text-gray-900">Archetype Potential</h2>
-              <p className="text-gray-500">Define the maximum stat levels for each player profile</p>
+              <p className="text-gray-500">Define the maximum potential for each attribute depending on the archetype.</p>
             </header>
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
               <div className="xl:col-span-8 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
@@ -161,7 +161,7 @@ function App() {
           <div className="max-w-5xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4">
             <header>
               <h2 className="text-2xl font-bold text-gray-900">Build Simulator</h2>
-              <p className="text-gray-500">Test builds against available AP and template caps</p>
+              <p className="text-gray-500">Test builds against available AP and Archetype potential.</p>
             </header>
 
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
