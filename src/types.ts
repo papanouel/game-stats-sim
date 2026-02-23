@@ -15,7 +15,7 @@ export type StatName =
   | 'block'
   | 'rebound';
 
-export type ProfileName = 'shooter' | 'finisher' | '3&D' | 'defender';
+export type ArchetypeName = 'shooter' | 'finisher' | '3&D' | 'defender';
 
 export type CategoryName = 'finishing' | 'creativity' | 'physicals' | 'shooting' | 'defense';
 
@@ -23,7 +23,7 @@ export interface StatCaps {
   [key: string]: number;
 }
 
-export interface ProfileCaps {
+export interface ArchetypeCaps {
   shooter: StatCaps;
   finisher: StatCaps;
   '3&D': StatCaps;

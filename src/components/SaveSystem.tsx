@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Upload, Copy, Check } from 'lucide-react';
-import { ProfileCaps, ProfileName, BuildState, EconomySettings } from '../types';
+import { ArchetypeCaps, ArchetypeName, BuildState, EconomySettings } from '../types';
 
 interface SaveData {
-    profileCaps: ProfileCaps;
-    selectedProfile: ProfileName;
-    selectedCapProfile: ProfileName;
+    archetypeCaps: ArchetypeCaps;
+    selectedArchetype: ArchetypeName;
+    selectedCapArchetype: ArchetypeName;
     build: BuildState;
     economy: EconomySettings;
     version: string;
@@ -42,7 +42,7 @@ export default function SaveSystem({ data, onImport }: SaveSystemProps) {
             const parsedData = JSON.parse(jsonString) as SaveData;
 
             // Basic validation
-            if (!parsedData.profileCaps || !parsedData.build || !parsedData.economy) {
+            if (!parsedData.archetypeCaps || !parsedData.build || !parsedData.economy) {
                 throw new Error('Invalid save data format');
             }
 

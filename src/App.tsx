@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react';
-import { ProfileName, ProfileCaps, BuildState, EconomySettings } from './types';
+import { ArchetypeName, ArchetypeCaps, BuildState, EconomySettings } from './types';
 import { DEFAULT_CAPS } from './constants';
 import { calculateAPSpent, initializeBuild } from './utils/calculations';
-import ProfileCapEditor from './components/ProfileCapEditor';
+import ArchetypeCapEditor from './components/ArchetypeCapEditor';
 import EconomyPanel from './components/EconomyPanel';
 import BuildControls from './components/BuildControls';
 import APTracker from './components/APTracker';
 import RadarChart from './components/RadarChart';
 import SaveSystem from './components/SaveSystem';
 
-const SETTINGS_VERSION = '1.1';
+const SETTINGS_VERSION = '1.2';
 const LOCAL_STORAGE_KEY = 'tinyhoopers_sim_settings';
 
 function App() {
-  const [profileCaps, setProfileCaps] = useState<ProfileCaps>(DEFAULT_CAPS);
-  const [selectedProfile, setSelectedProfile] = useState<ProfileName>('shooter');
-  const [selectedCapProfile, setSelectedCapProfile] = useState<ProfileName>('shooter');
+  const [archetypeCaps, setArchetypeCaps] = useState<ArchetypeCaps>(DEFAULT_CAPS);
+  const [selectedArchetype, setSelectedArchetype] = useState<ArchetypeName>('shooter');
+  const [selectedCapArchetype, setSelectedCapArchetype] = useState<ArchetypeName>('shooter');
   const [build, setBuild] = useState<BuildState>(initializeBuild());
   const [economy, setEconomy] = useState<EconomySettings>({
     initialAP: 50,
@@ -32,9 +32,9 @@ function App() {
         const jsonString = atob(saved);
         const parsed = JSON.parse(jsonString);
         if (parsed.version === SETTINGS_VERSION) {
-          setProfileCaps(parsed.profileCaps);
-          setSelectedProfile(parsed.selectedProfile);
-          setSelectedCapProfile(parsed.selectedCapProfile);
+          setArchetypeCaps(parsed.archetypeCaps);
+          setSelectedArchetype(parsed.selectedArchetype);
+          setSelectedCapArchetype(parsed.selectedCapArchetype);
           setBuild(parsed.build);
           setEconomy(parsed.economy);
         }
@@ -50,40 +50,40 @@ function App() {
     if (!isInitialized) return;
 
     const data = {
-      profileCaps,
-      selectedProfile,
-      selectedCapProfile,
+      archetypeCaps,
+      selectedArchetype,
+      selectedCapArchetype,
       build,
       economy,
       version: SETTINGS_VERSION,
     };
     const base64 = btoa(JSON.stringify(data));
     localStorage.setItem(LOCAL_STORAGE_KEY, base64);
-  }, [profileCaps, selectedProfile, selectedCapProfile, build, economy, isInitialized]);
+  }, [archetypeCaps, selectedArchetype, selectedCapArchetype, build, economy, isInitialized]);
 
   const handleImport = (data: any) => {
-    setProfileCaps(data.profileCaps);
-    setSelectedProfile(data.selectedProfile);
-    setSelectedCapProfile(data.selectedCapProfile);
+    setArchetypeCaps(data.archetypeCaps);
+    setSelectedArchetype(data.selectedArchetype);
+    setSelectedCapArchetype(data.selectedCapArchetype);
     setBuild(data.build);
     setEconomy(data.economy);
   };
 
   const currentSaveData = {
-    profileCaps,
-    selectedProfile,
-    selectedCapProfile,
+    archetypeCaps,
+    selectedArchetype,
+    selectedCapArchetype,
     build,
     economy,
     version: SETTINGS_VERSION
   };
 
-  const handleCapsChange = (profileName: ProfileName, caps: any) => {
-    setProfileCaps(prev => ({ ...prev, [profileName]: caps }));
+  const handleCapsChange = (archetypeName: ArchetypeName, caps: any) => {
+    setArchetypeCaps(prev => ({ ...prev, [archetypeName]: caps }));
   };
 
-  const handleProfileChange = (profile: ProfileName) => {
-    setSelectedProfile(profile);
+  const handleArchetypeChange = (archetype: ArchetypeName) => {
+    setSelectedArchetype(archetype);
     setBuild(initializeBuild());
   };
 
@@ -91,7 +91,7 @@ function App() {
   const apSpent = calculateAPSpent(build);
   const availableAP = totalEarnable - apSpent;
 
-  const profiles: ProfileName[] = ['shooter', 'finisher', '3&D', 'defender'];
+  const archetypes: ArchetypeName[] = ['shooter', 'finisher', '3&D', 'defender'];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -104,7 +104,7 @@ function App() {
             </h1>
           </div>
           <p className="text-gray-600 ml-14">
-            Define profile caps, manage AP economy, and build your perfect hooper in real-time
+            Define archetype caps, manage AP economy, and build your perfect hooper in real-time
           </p>
         </header>
 
@@ -113,26 +113,26 @@ function App() {
           <EconomyPanel economy={economy} onEconomyChange={setEconomy} />
 
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Profile Cap Templates</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Archetype Cap Templates</h2>
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Select Profile to Edit
+                Select Archetype to Edit
               </label>
               <select
-                value={selectedCapProfile}
-                onChange={(e) => setSelectedCapProfile(e.target.value as ProfileName)}
+                value={selectedCapArchetype}
+                onChange={(e) => setSelectedCapArchetype(e.target.value as ArchetypeName)}
                 className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                {profiles.map(profile => (
-                  <option key={profile} value={profile}>
-                    {profile.charAt(0).toUpperCase() + profile.slice(1)}
+                {archetypes.map(archetype => (
+                  <option key={archetype} value={archetype}>
+                    {archetype.charAt(0).toUpperCase() + archetype.slice(1)}
                   </option>
                 ))}
               </select>
             </div>
-            <ProfileCapEditor
-              profileName={selectedCapProfile}
-              caps={profileCaps[selectedCapProfile]}
+            <ArchetypeCapEditor
+              archetypeName={selectedCapArchetype}
+              caps={archetypeCaps[selectedCapArchetype]}
               onCapsChange={handleCapsChange}
             />
           </div>
@@ -142,19 +142,19 @@ function App() {
 
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-3">
-                Select Profile to Build
+                Select Archetype to Build
               </label>
               <div className="flex gap-3">
-                {profiles.map(profile => (
+                {archetypes.map(archetype => (
                   <button
-                    key={profile}
-                    onClick={() => handleProfileChange(profile)}
-                    className={`px-6 py-3 rounded-lg font-semibold transition-all ${selectedProfile === profile
+                    key={archetype}
+                    onClick={() => handleArchetypeChange(archetype)}
+                    className={`px-6 py-3 rounded-lg font-semibold transition-all ${selectedArchetype === archetype
                       ? 'bg-blue-600 text-white shadow-md'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                   >
-                    {profile.charAt(0).toUpperCase() + profile.slice(1)}
+                    {archetype.charAt(0).toUpperCase() + archetype.slice(1)}
                   </button>
                 ))}
               </div>
@@ -164,7 +164,7 @@ function App() {
               <div className="lg:col-span-2">
                 <BuildControls
                   build={build}
-                  caps={profileCaps[selectedProfile]}
+                  caps={archetypeCaps[selectedArchetype]}
                   availableAP={availableAP}
                   onBuildChange={setBuild}
                 />
@@ -177,7 +177,7 @@ function App() {
                 />
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Build Visualization</h3>
-                  <RadarChart build={build} caps={profileCaps[selectedProfile]} />
+                  <RadarChart build={build} caps={archetypeCaps[selectedArchetype]} />
                 </div>
               </div>
             </div>
@@ -185,7 +185,7 @@ function App() {
         </div>
 
         <footer className="mt-8 text-center text-sm text-gray-500">
-          <p>TinyHoopers Profile Balance Tool - Real-time AP Cost & Cap Simulator</p>
+          <p>TinyHoopers Archetype Balance Tool - Real-time AP Cost & Cap Simulator</p>
         </footer>
       </div>
     </div>

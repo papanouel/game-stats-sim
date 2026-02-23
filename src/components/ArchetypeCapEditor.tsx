@@ -1,21 +1,21 @@
-import { StatCaps, ProfileName } from '../types';
+import { StatCaps, ArchetypeName } from '../types';
 import { STAT_NAMES, STAT_DISPLAY_NAMES } from '../constants';
 import { calculateTotalAPCost } from '../utils/calculations';
 
-interface ProfileCapEditorProps {
-  profileName: ProfileName;
+interface ArchetypeCapEditorProps {
+  archetypeName: ArchetypeName;
   caps: StatCaps;
-  onCapsChange: (profileName: ProfileName, caps: StatCaps) => void;
+  onCapsChange: (archetypeName: ArchetypeName, caps: StatCaps) => void;
 }
 
-export default function ProfileCapEditor({
-  profileName,
+export default function ArchetypeCapEditor({
+  archetypeName,
   caps,
   onCapsChange,
-}: ProfileCapEditorProps) {
+}: ArchetypeCapEditorProps) {
   const handleCapChange = (stat: string, value: number) => {
     const newCaps = { ...caps, [stat]: Math.max(0, Math.min(10, value)) };
-    onCapsChange(profileName, newCaps);
+    onCapsChange(archetypeName, newCaps);
   };
 
   const totalCost = calculateTotalAPCost(caps);
@@ -23,7 +23,7 @@ export default function ProfileCapEditor({
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900 capitalize">{profileName}</h3>
+        <h3 className="text-lg font-semibold text-gray-900 capitalize">{archetypeName}</h3>
         <div className="flex gap-4 text-sm">
           <span className="text-gray-600">
             Total Cap Sum: <span className="font-semibold text-gray-900">{totalCost}</span>
