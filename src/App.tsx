@@ -7,12 +7,14 @@ import EconomyPanel from './components/EconomyPanel';
 import BuildControls from './components/BuildControls';
 import APTracker from './components/APTracker';
 import RadarChart from './components/RadarChart';
-import SaveSystem from './components/SaveSystem';
+import TopBar from './components/TopBar';
+import Sidebar from './components/Sidebar';
 
 const SETTINGS_VERSION = '1.2';
 const LOCAL_STORAGE_KEY = 'tinyhoopers_sim_settings';
 
 function App() {
+  const [activeView, setActiveView] = useState('simulator');
   const [archetypeCaps, setArchetypeCaps] = useState<ArchetypeCaps>(DEFAULT_CAPS);
   const [selectedArchetype, setSelectedArchetype] = useState<ArchetypeName>('shooter');
   const [selectedCapArchetype, setSelectedCapArchetype] = useState<ArchetypeName>('shooter');
@@ -93,65 +95,87 @@ function App() {
 
   const archetypes: ArchetypeName[] = ['shooter', 'finisher', '3&D', 'defender'];
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <div className="container mx-auto px-4 py-8">
-        <header className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <img src="icon.png" width="48" height="48" />
-            <h1 className="text-4xl font-bold text-gray-900">
-              TinyHoopers AP Cost & Cap Simulator
-            </h1>
+  const renderContent = () => {
+    switch (activeView) {
+      case 'economy':
+        return (
+          <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4">
+            <header>
+              <h2 className="text-2xl font-bold text-gray-900">AP Economy Settings</h2>
+              <p className="text-gray-500">Configure global AP limits and bonuses for all archetypes</p>
+            </header>
+            <EconomyPanel economy={economy} onEconomyChange={setEconomy} />
           </div>
-          <p className="text-gray-600 ml-14">
-            Define archetype caps, manage AP economy, and build your perfect hooper in real-time
-          </p>
-        </header>
-
-        <div className="space-y-6">
-          <SaveSystem data={currentSaveData} onImport={handleImport} />
-          <EconomyPanel economy={economy} onEconomyChange={setEconomy} />
-
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Archetype Cap Templates</h2>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Select Archetype to Edit
-              </label>
-              <select
-                value={selectedCapArchetype}
-                onChange={(e) => setSelectedCapArchetype(e.target.value as ArchetypeName)}
-                className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {archetypes.map(archetype => (
-                  <option key={archetype} value={archetype}>
-                    {archetype.charAt(0).toUpperCase() + archetype.slice(1)}
-                  </option>
-                ))}
-              </select>
+        );
+      case 'archetypes':
+        return (
+          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
+            <header>
+              <h2 className="text-2xl font-bold text-gray-900">Archetype Potential</h2>
+              <p className="text-gray-500">Define the maximum stat levels for each player profile</p>
+            </header>
+            <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+              <div className="xl:col-span-8 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="mb-6">
+                  <label className="block text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wider">
+                    Select Archetype
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {archetypes.map(archetype => (
+                      <button
+                        key={archetype}
+                        onClick={() => setSelectedCapArchetype(archetype)}
+                        className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${selectedCapArchetype === archetype
+                          ? 'bg-blue-600 text-white shadow-md'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                          }`}
+                      >
+                        {archetype.charAt(0).toUpperCase() + archetype.slice(1)}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <ArchetypeCapEditor
+                  archetypeName={selectedCapArchetype}
+                  caps={archetypeCaps[selectedCapArchetype]}
+                  onCapsChange={handleCapsChange}
+                />
+              </div>
+              <div className="xl:col-span-4 space-y-6">
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 text-center">Potential Radar</h3>
+                  <div className="aspect-square">
+                    <RadarChart caps={archetypeCaps[selectedCapArchetype]} showCurrent={false} />
+                  </div>
+                  <p className="mt-4 text-xs text-center text-gray-500 italic">
+                    Visual representation of maximum potential for the selected archetype
+                  </p>
+                </div>
+              </div>
             </div>
-            <ArchetypeCapEditor
-              archetypeName={selectedCapArchetype}
-              caps={archetypeCaps[selectedCapArchetype]}
-              onCapsChange={handleCapsChange}
-            />
           </div>
+        );
+      case 'simulator':
+      default:
+        return (
+          <div className="max-w-5xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4">
+            <header>
+              <h2 className="text-2xl font-bold text-gray-900">Build Simulator</h2>
+              <p className="text-gray-500">Test builds against available AP and template caps</p>
+            </header>
 
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Build Simulator</h2>
-
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-3">
-                Select Archetype to Build
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <label className="block text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wider">
+                Select Base Archetype
               </label>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-2">
                 {archetypes.map(archetype => (
                   <button
                     key={archetype}
                     onClick={() => handleArchetypeChange(archetype)}
-                    className={`px-6 py-3 rounded-lg font-semibold transition-all ${selectedArchetype === archetype
+                    className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${selectedArchetype === archetype
                       ? 'bg-blue-600 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                       }`}
                   >
                     {archetype.charAt(0).toUpperCase() + archetype.slice(1)}
@@ -160,8 +184,8 @@ function App() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <div className="lg:col-span-7 xl:col-span-8">
                 <BuildControls
                   build={build}
                   caps={archetypeCaps[selectedArchetype]}
@@ -169,24 +193,35 @@ function App() {
                   onBuildChange={setBuild}
                 />
               </div>
-              <div className="space-y-6">
+              <div className="lg:col-span-5 xl:col-span-4 space-y-6">
                 <APTracker
                   totalEarnable={totalEarnable}
                   apSpent={apSpent}
                   availableAP={availableAP}
                 />
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Build Visualization</h3>
-                  <RadarChart build={build} caps={archetypeCaps[selectedArchetype]} />
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                  <h3 className="text-lg font-bold text-gray-900 mb-4">Build Comparison</h3>
+                  <div className="aspect-square">
+                    <RadarChart build={build} caps={archetypeCaps[selectedArchetype]} />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        );
+    }
+  };
 
-        <footer className="mt-8 text-center text-sm text-gray-500">
-          <p>TinyHoopers Archetype Balance Tool - Real-time AP Cost & Cap Simulator</p>
-        </footer>
+  return (
+    <div className="h-screen flex flex-col bg-gray-50 overflow-hidden">
+      <TopBar data={currentSaveData} onImport={handleImport} />
+      <div className="flex flex-1 overflow-hidden">
+        <Sidebar activeView={activeView} onViewChange={setActiveView} />
+        <main className="flex-1 overflow-y-auto p-8 lg:p-12">
+          <div className="max-w-7xl mx-auto">
+            {renderContent()}
+          </div>
+        </main>
       </div>
     </div>
   );

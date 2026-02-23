@@ -21,50 +21,56 @@ ChartJS.register(
 );
 
 interface RadarChartProps {
-  build: BuildState;
+  build?: BuildState;
   caps: StatCaps;
+  showCurrent?: boolean;
 }
 
-export default function RadarChart({ build, caps }: RadarChartProps) {
+export default function RadarChart({ build, caps, showCurrent = true }: RadarChartProps) {
   const categories = ['Finishing', 'Creativity', 'Physicals', 'Shooting', 'Defense'];
   const categoryKeys: Array<'finishing' | 'creativity' | 'physicals' | 'shooting' | 'defense'> =
     ['finishing', 'creativity', 'physicals', 'shooting', 'defense'];
 
-  const currentData = categoryKeys.map(key =>
-    calculateCategoryAverage(key, build)
-  );
+  const currentData = showCurrent && build
+    ? categoryKeys.map(key => calculateCategoryAverage(key, build))
+    : [];
 
   const maxData = categoryKeys.map(key =>
     calculateCategoryMax(key, caps)
   );
 
+  const datasets = [];
+
+  if (showCurrent && build) {
+    datasets.push({
+      label: 'Current Build',
+      data: currentData,
+      backgroundColor: 'rgba(34, 197, 94, 0.2)',
+      borderColor: 'rgba(34, 197, 94, 1)',
+      borderWidth: 2,
+      pointBackgroundColor: 'rgba(34, 197, 94, 1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(34, 197, 94, 1)',
+    });
+  }
+
+  datasets.push({
+    label: 'Max Potential',
+    data: maxData,
+    backgroundColor: showCurrent ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.2)',
+    borderColor: showCurrent ? 'rgba(59, 130, 246, 0.5)' : 'rgba(59, 130, 246, 1)',
+    borderWidth: 2,
+    borderDash: showCurrent ? [5, 5] : [],
+    pointBackgroundColor: showCurrent ? 'rgba(59, 130, 246, 0.5)' : 'rgba(59, 130, 246, 1)',
+    pointBorderColor: '#fff',
+    pointHoverBackgroundColor: '#fff',
+    pointHoverBorderColor: 'rgba(59, 130, 246, 1)',
+  });
+
   const data = {
     labels: categories,
-    datasets: [
-      {
-        label: 'Current Build',
-        data: currentData,
-        backgroundColor: 'rgba(34, 197, 94, 0.2)',
-        borderColor: 'rgba(34, 197, 94, 1)',
-        borderWidth: 2,
-        pointBackgroundColor: 'rgba(34, 197, 94, 1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(34, 197, 94, 1)',
-      },
-      {
-        label: 'Max Potential',
-        data: maxData,
-        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-        borderColor: 'rgba(59, 130, 246, 0.5)',
-        borderWidth: 2,
-        borderDash: [5, 5],
-        pointBackgroundColor: 'rgba(59, 130, 246, 0.5)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(59, 130, 246, 1)',
-      },
-    ],
+    datasets,
   };
 
   const options = {
