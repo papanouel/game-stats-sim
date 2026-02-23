@@ -13,7 +13,7 @@ export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
     ];
 
     return (
-        <div className="w-64 bg-gray-900 h-full flex flex-col border-r border-gray-800">
+        <div className="w-64 bg-[#1e1e1e] h-full flex flex-col border-r border-gray-800">
             <div className="flex-1 py-6 px-4 space-y-2">
                 {menuItems.map((item) => {
                     const Icon = item.icon;
@@ -23,7 +23,7 @@ export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
                             key={item.id}
                             onClick={() => onViewChange(item.id)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${isActive
-                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20'
+                                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
                                 : 'text-gray-400 hover:bg-gray-800 hover:text-gray-200'
                                 }`}
                         >

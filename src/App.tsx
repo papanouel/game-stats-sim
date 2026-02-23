@@ -101,8 +101,8 @@ function App() {
         return (
           <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4">
             <header>
-              <h2 className="text-2xl font-bold text-gray-900">AP Economy Settings</h2>
-              <p className="text-gray-500">Configure total Attribute Points (AP) amount available.</p>
+              <h2 className="text-2xl font-bold text-gray-100">AP Economy Settings</h2>
+              <p className="text-gray-400">Configure total Attribute Points (AP) amount available.</p>
             </header>
             <EconomyPanel economy={economy} onEconomyChange={setEconomy} />
           </div>
@@ -111,13 +111,13 @@ function App() {
         return (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
             <header>
-              <h2 className="text-2xl font-bold text-gray-900">Archetype Potential</h2>
-              <p className="text-gray-500">Define the maximum potential for each attribute depending on the archetype.</p>
+              <h2 className="text-2xl font-bold text-gray-100">Archetype Potential</h2>
+              <p className="text-gray-400">Define the maximum potential for each attribute depending on the archetype.</p>
             </header>
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-              <div className="xl:col-span-8 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <div className="xl:col-span-8 bg-[#2a2a2a] rounded-xl shadow-lg border border-gray-800 p-6">
                 <div className="mb-6">
-                  <label className="block text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wider">
+                  <label className="block text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider">
                     Select Archetype
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -126,8 +126,8 @@ function App() {
                         key={archetype}
                         onClick={() => setSelectedCapArchetype(archetype)}
                         className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${selectedCapArchetype === archetype
-                          ? 'bg-blue-600 text-white shadow-md'
-                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                          ? 'bg-indigo-600 text-white shadow-lg'
+                          : 'bg-[#1e1e1e] text-gray-400 hover:bg-gray-800 border border-gray-800'
                           }`}
                       >
                         {archetype.charAt(0).toUpperCase() + archetype.slice(1)}
@@ -142,12 +142,12 @@ function App() {
                 />
               </div>
               <div className="xl:col-span-4 space-y-6">
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                  <h3 className="text-lg font-bold text-gray-900 mb-4 text-center">Potential Radar</h3>
+                <div className="bg-[#2a2a2a] rounded-xl shadow-lg border border-gray-800 p-6">
+                  <h3 className="text-lg font-bold text-gray-100 mb-4 text-center">Potential Radar</h3>
                   <div className="aspect-square">
-                    <RadarChart caps={archetypeCaps[selectedCapArchetype]} showCurrent={false} />
+                    <RadarChart caps={archetypeCaps[selectedCapArchetype]} showCurrent={false} theme="dark" />
                   </div>
-                  <p className="mt-4 text-xs text-center text-gray-500 italic">
+                  <p className="mt-4 text-xs text-center text-gray-400 italic">
                     Visual representation of maximum potential for the selected archetype
                   </p>
                 </div>
@@ -160,12 +160,12 @@ function App() {
         return (
           <div className="max-w-5xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4">
             <header>
-              <h2 className="text-2xl font-bold text-gray-900">Build Simulator</h2>
-              <p className="text-gray-500">Test builds against available AP and Archetype potential.</p>
+              <h2 className="text-2xl font-bold text-gray-100">Build Simulator</h2>
+              <p className="text-gray-400">Test builds against available AP and Archetype potential.</p>
             </header>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <label className="block text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wider">
+            <div className="bg-[#2a2a2a] rounded-xl shadow-lg border border-gray-800 p-6">
+              <label className="block text-sm font-semibold text-gray-400 mb-4 uppercase tracking-wider">
                 Select Base Archetype
               </label>
               <div className="flex flex-wrap gap-2">
@@ -174,8 +174,8 @@ function App() {
                     key={archetype}
                     onClick={() => handleArchetypeChange(archetype)}
                     className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${selectedArchetype === archetype
-                      ? 'bg-blue-600 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      ? 'bg-indigo-600 text-white shadow-lg'
+                      : 'bg-[#1e1e1e] text-gray-400 hover:bg-gray-800 border border-gray-800'
                       }`}
                   >
                     {archetype.charAt(0).toUpperCase() + archetype.slice(1)}
@@ -199,10 +199,10 @@ function App() {
                   apSpent={apSpent}
                   availableAP={availableAP}
                 />
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                  <h3 className="text-lg font-bold text-gray-900 mb-4">Build Comparison</h3>
+                <div className="bg-[#2a2a2a] rounded-xl shadow-lg border border-gray-800 p-6">
+                  <h3 className="text-lg font-bold text-gray-100 mb-4">Build Comparison</h3>
                   <div className="aspect-square">
-                    <RadarChart build={build} caps={archetypeCaps[selectedArchetype]} />
+                    <RadarChart build={build} caps={archetypeCaps[selectedArchetype]} theme="dark" />
                   </div>
                 </div>
               </div>
@@ -213,7 +213,7 @@ function App() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50 overflow-hidden">
+    <div className="h-screen flex flex-col bg-[#1e1e1e] overflow-hidden">
       <TopBar data={currentSaveData} onImport={handleImport} />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar activeView={activeView} onViewChange={setActiveView} />
@@ -224,7 +224,7 @@ function App() {
             </div>
             <footer className="mt-6 py-3 text-center">
               <p className="text-sm text-gray-500 font-medium">
-                Made with love ❤️ by <span className="text-gray-900">Papanouel</span> and <span className="text-blue-600">Antigravity</span>
+                Made with love ❤️ by <span className="text-gray-200">Papanouel</span> and <span className="text-indigo-400">Antigravity</span>
               </p>
             </footer>
           </div>

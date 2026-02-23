@@ -24,9 +24,10 @@ interface RadarChartProps {
   build?: BuildState;
   caps: StatCaps;
   showCurrent?: boolean;
+  theme?: 'light' | 'dark';
 }
 
-export default function RadarChart({ build, caps, showCurrent = true }: RadarChartProps) {
+export default function RadarChart({ build, caps, showCurrent = true, theme = 'light' }: RadarChartProps) {
   const categories = ['Finishing', 'Creativity', 'Physicals', 'Shooting', 'Defense'];
   const categoryKeys: Array<'finishing' | 'creativity' | 'physicals' | 'shooting' | 'defense'> =
     ['finishing', 'creativity', 'physicals', 'shooting', 'defense'];
@@ -55,17 +56,18 @@ export default function RadarChart({ build, caps, showCurrent = true }: RadarCha
     });
   }
 
+  // Indigo colors: 99, 102, 241
   datasets.push({
     label: 'Max Potential',
     data: maxData,
-    backgroundColor: showCurrent ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.2)',
-    borderColor: showCurrent ? 'rgba(59, 130, 246, 0.5)' : 'rgba(59, 130, 246, 1)',
+    backgroundColor: showCurrent ? 'rgba(99, 102, 241, 0.1)' : 'rgba(99, 102, 241, 0.2)',
+    borderColor: showCurrent ? 'rgba(99, 102, 241, 0.5)' : 'rgba(99, 102, 241, 1)',
     borderWidth: 2,
     borderDash: showCurrent ? [5, 5] : [],
-    pointBackgroundColor: showCurrent ? 'rgba(59, 130, 246, 0.5)' : 'rgba(59, 130, 246, 1)',
-    pointBorderColor: '#fff',
+    pointBackgroundColor: showCurrent ? 'rgba(99, 102, 241, 0.5)' : 'rgba(99, 102, 241, 1)',
+    pointBorderColor: theme === 'dark' ? '#1e1e1e' : '#fff',
     pointHoverBackgroundColor: '#fff',
-    pointHoverBorderColor: 'rgba(59, 130, 246, 1)',
+    pointHoverBorderColor: 'rgba(99, 102, 241, 1)',
   });
 
   const data = {
@@ -80,15 +82,30 @@ export default function RadarChart({ build, caps, showCurrent = true }: RadarCha
         max: 10,
         ticks: {
           stepSize: 2,
+          backdropColor: 'transparent',
+          color: theme === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
         },
         grid: {
-          color: 'rgba(0, 0, 0, 0.1)',
+          color: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+        },
+        angleLines: {
+          color: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+        },
+        pointLabels: {
+          color: theme === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)',
+          font: {
+            size: 12,
+            weight: 'bold' as const,
+          },
         },
       },
     },
     plugins: {
       legend: {
         position: 'top' as const,
+        labels: {
+          color: theme === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)',
+        },
       },
     },
     maintainAspectRatio: true,

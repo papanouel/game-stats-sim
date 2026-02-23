@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply text-gray-900 antialiased;
+    @apply bg-[#1e1e1e] text-gray-200 antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 }
@@ -26,13 +26,25 @@
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
   }
 
   @keyframes slideInFromBottom {
-    from { transform: translateY(1rem); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from {
+      transform: translateY(1rem);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
 }
 
@@ -43,9 +55,9 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-transparent;
+  @apply bg-[#1e1e1e];
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 rounded-full hover:bg-gray-400 transition-colors;
+  @apply bg-indigo-500/50 rounded-full hover:bg-indigo-400/70 transition-colors;
 }

@@ -41,12 +41,12 @@ export default function BuildControls({
   ];
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Build Stats</h3>
+    <div className="bg-[#2a2a2a] rounded-xl shadow-lg border border-gray-800 p-6">
+      <h3 className="text-lg font-bold text-gray-100 mb-6">Attribute Allocation</h3>
       <div className="space-y-6">
         {categories.map(category => (
           <div key={category.key}>
-            <h4 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
+            <h4 className="text-xs font-bold text-indigo-400 mb-3 uppercase tracking-widest border-l-2 border-indigo-500 pl-2">
               {category.name}
             </h4>
             <div className="space-y-2">
@@ -60,38 +60,38 @@ export default function BuildControls({
                 return (
                   <div
                     key={stat}
-                    className="flex items-center justify-between gap-3 p-2 bg-gray-50 rounded hover:bg-gray-100 transition-colors"
+                    className="flex items-center justify-between gap-3 p-3 bg-[#1e1e1e] rounded-lg border border-gray-800 hover:border-gray-700 transition-all group"
                   >
-                    <span className="text-sm font-medium text-gray-700 flex-1">
-                      {STAT_DISPLAY_NAMES[stat]} (Lvl.)
+                    <span className="text-sm font-medium text-gray-300 flex-1">
+                      {STAT_DISPLAY_NAMES[stat]}
                     </span>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-3">
                       <button
                         onClick={() => handleDecrement(stat)}
                         disabled={isAtMin}
-                        className={`p-1 rounded transition-colors ${isAtMin
-                          ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                          : 'bg-red-100 text-red-600 hover:bg-red-200'
+                        className={`p-1.5 rounded-lg transition-all ${isAtMin
+                          ? 'bg-gray-800 text-gray-600 cursor-not-allowed opacity-50'
+                          : 'bg-red-900/20 text-red-500 hover:bg-red-500 hover:text-white'
                           }`}
                       >
-                        <Minus size={16} />
+                        <Minus size={14} />
                       </button>
-                      <div className="flex items-center gap-1 min-w-[60px] justify-center">
-                        <span className="text-sm font-semibold text-gray-900">
+                      <div className="flex items-center gap-1.5 min-w-[70px] justify-center bg-[#2a2a2a] py-1 px-2 rounded border border-gray-700">
+                        <span className={`text-sm font-bold ${isAtMax ? 'text-indigo-400' : 'text-gray-100'}`}>
                           {currentValue}
                         </span>
-                        <span className="text-xs text-gray-500">/</span>
-                        <span className="text-sm text-gray-600">{maxCap}</span>
+                        <span className="text-xs text-gray-600">/</span>
+                        <span className="text-sm text-gray-400 font-medium">{maxCap}</span>
                       </div>
                       <button
                         onClick={() => handleIncrement(stat)}
                         disabled={!canIncrease}
-                        className={`p-1 rounded transition-colors ${!canIncrease
-                          ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                          : 'bg-green-100 text-green-600 hover:bg-green-200'
+                        className={`p-1.5 rounded-lg transition-all ${!canIncrease
+                          ? 'bg-gray-800 text-gray-600 cursor-not-allowed opacity-50'
+                          : 'bg-green-900/20 text-green-500 hover:bg-green-500 hover:text-white'
                           }`}
                       >
-                        <Plus size={16} />
+                        <Plus size={14} />
                       </button>
                     </div>
                   </div>
