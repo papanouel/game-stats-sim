@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Target } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { ProfileName, ProfileCaps, BuildState, EconomySettings } from './types';
 import { DEFAULT_CAPS } from './constants';
 import { calculateAPSpent, initializeBuild } from './utils/calculations';
@@ -8,6 +7,10 @@ import EconomyPanel from './components/EconomyPanel';
 import BuildControls from './components/BuildControls';
 import APTracker from './components/APTracker';
 import RadarChart from './components/RadarChart';
+import SaveSystem from './components/SaveSystem';
+
+const SETTINGS_VERSION = '1.1';
+const LOCAL_STORAGE_KEY = 'tinyhoopers_sim_settings';
 
 function App() {
   const [profileCaps, setProfileCaps] = useState<ProfileCaps>(DEFAULT_CAPS);
@@ -19,6 +22,61 @@ function App() {
     extraAP: 30,
     levelUpAP: 20,
   });
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (saved) {
+      try {
+        const jsonString = atob(saved);
+        const parsed = JSON.parse(jsonString);
+        if (parsed.version === SETTINGS_VERSION) {
+          setProfileCaps(parsed.profileCaps);
+          setSelectedProfile(parsed.selectedProfile);
+          setSelectedCapProfile(parsed.selectedCapProfile);
+          setBuild(parsed.build);
+          setEconomy(parsed.economy);
+        }
+      } catch (e) {
+        console.error('Failed to load saved settings', e);
+      }
+    }
+    setIsInitialized(true);
+  }, []);
+
+  // Save to localStorage whenever state changes
+  useEffect(() => {
+    if (!isInitialized) return;
+
+    const data = {
+      profileCaps,
+      selectedProfile,
+      selectedCapProfile,
+      build,
+      economy,
+      version: SETTINGS_VERSION,
+    };
+    const base64 = btoa(JSON.stringify(data));
+    localStorage.setItem(LOCAL_STORAGE_KEY, base64);
+  }, [profileCaps, selectedProfile, selectedCapProfile, build, economy, isInitialized]);
+
+  const handleImport = (data: any) => {
+    setProfileCaps(data.profileCaps);
+    setSelectedProfile(data.selectedProfile);
+    setSelectedCapProfile(data.selectedCapProfile);
+    setBuild(data.build);
+    setEconomy(data.economy);
+  };
+
+  const currentSaveData = {
+    profileCaps,
+    selectedProfile,
+    selectedCapProfile,
+    build,
+    economy,
+    version: SETTINGS_VERSION
+  };
 
   const handleCapsChange = (profileName: ProfileName, caps: any) => {
     setProfileCaps(prev => ({ ...prev, [profileName]: caps }));
@@ -40,7 +98,7 @@ function App() {
       <div className="container mx-auto px-4 py-8">
         <header className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <img src="icon.png" width="48" height="48"/>
+            <img src="icon.png" width="48" height="48" />
             <h1 className="text-4xl font-bold text-gray-900">
               TinyHoopers AP Cost & Cap Simulator
             </h1>
@@ -51,6 +109,7 @@ function App() {
         </header>
 
         <div className="space-y-6">
+          <SaveSystem data={currentSaveData} onImport={handleImport} />
           <EconomyPanel economy={economy} onEconomyChange={setEconomy} />
 
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -90,11 +149,10 @@ function App() {
                   <button
                     key={profile}
                     onClick={() => handleProfileChange(profile)}
-                    className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-                      selectedProfile === profile
-                        ? 'bg-blue-600 text-white shadow-md'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
+                    className={`px-6 py-3 rounded-lg font-semibold transition-all ${selectedProfile === profile
+                      ? 'bg-blue-600 text-white shadow-md'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
                   >
                     {profile.charAt(0).toUpperCase() + profile.slice(1)}
                   </button>
