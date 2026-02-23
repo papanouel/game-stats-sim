@@ -222,7 +222,7 @@ function App() {
             <div className="flex-1">
               {renderContent()}
             </div>
-            <footer className="mt-12 py-6 border-t border-gray-200 text-center">
+            <footer className="mt-12 py-6 text-center">
               <p className="text-sm text-gray-500 font-medium">
                 Made with love ❤️ by <span className="text-gray-900">Papanouel</span> and <span className="text-blue-600">Antigravity</span>
               </p>
