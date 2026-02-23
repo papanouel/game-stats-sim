@@ -11,7 +11,7 @@ import TopBar from './components/TopBar';
 import Sidebar from './components/Sidebar';
 
 const SETTINGS_VERSION = '1.2';
-const LOCAL_STORAGE_KEY = 'tinyhoopers_sim_settings';
+const LOCAL_STORAGE_KEY = 'game_stats_sim_settings';
 
 function App() {
   const [activeView, setActiveView] = useState('simulator');

@@ -60,7 +60,7 @@ export default function TopBar({ data, onImport }: TopBarProps) {
                 <div className="flex items-center gap-4">
                     <img src={logo} width="32" height="32" alt="Logo" />
                     <h1 className="text-xl font-bold text-gray-900 hidden md:block">
-                        TinyHoopers <span className="text-blue-600">AP Sim</span>
+                        Game Stats <span className="text-blue-600">Sim</span>
                     </h1>
                 </div>
 
