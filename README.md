@@ -1,6 +1,6 @@
 # Game Stats Sim
 
-A professional dashboard designed to balance and simulate player statistics for any competitive game. This tool allows developers and designers to define archetype boundaries, manage progression economy, and visualize character potential in real-time.
+A simple dashboard made with Antigravity, designed to balance and simulate player statistics for any competitive game. This tool allows developers and designers to define archetype boundaries, manage attribute levelups, and visualize character potential in real-time.
 
 **🚀 Live Demo: [https://papanouel.github.io/game-stats-sim/](https://papanouel.github.io/game-stats-sim/)**
 
