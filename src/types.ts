@@ -2,7 +2,6 @@ export type StatName =
   | 'layup'
   | 'dunking'
   | 'paint'
-  | 'dribbleSpeed'
   | 'dribbleControl'
   | 'passAccuracy'
   | 'agility'
@@ -14,12 +13,11 @@ export type StatName =
   | 'freeThrow'
   | 'steal'
   | 'block'
-  | 'offensiveRebound'
-  | 'defensiveRebound';
+  | 'rebound';
 
 export type ProfileName = 'shooter' | 'finisher' | '3&D' | 'defender';
 
-export type CategoryName = 'finishing' | 'creativity' | 'physicals' | 'shooting' | 'defense' | 'rebound';
+export type CategoryName = 'finishing' | 'creativity' | 'physicals' | 'shooting' | 'defense';
 
 export interface StatCaps {
   [key: string]: number;

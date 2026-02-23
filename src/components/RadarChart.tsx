@@ -26,9 +26,9 @@ interface RadarChartProps {
 }
 
 export default function RadarChart({ build, caps }: RadarChartProps) {
-  const categories = ['Finishing', 'Creativity', 'Physicals', 'Shooting', 'Defense', 'Rebound'];
-  const categoryKeys: Array<'finishing' | 'creativity' | 'physicals' | 'shooting' | 'defense' | 'rebound'> =
-    ['finishing', 'creativity', 'physicals', 'shooting', 'defense', 'rebound'];
+  const categories = ['Finishing', 'Creativity', 'Physicals', 'Shooting', 'Defense'];
+  const categoryKeys: Array<'finishing' | 'creativity' | 'physicals' | 'shooting' | 'defense'> =
+    ['finishing', 'creativity', 'physicals', 'shooting', 'defense'];
 
   const currentData = categoryKeys.map(key =>
     calculateCategoryAverage(key, build)

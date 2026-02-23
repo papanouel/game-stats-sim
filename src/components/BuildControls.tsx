@@ -1,6 +1,6 @@
 import { Plus, Minus } from 'lucide-react';
 import { BuildState, StatCaps } from '../types';
-import { STAT_NAMES, STAT_DISPLAY_NAMES, CATEGORY_STATS } from '../constants';
+import { STAT_DISPLAY_NAMES, CATEGORY_STATS } from '../constants';
 
 interface BuildControlsProps {
   build: BuildState;
@@ -38,7 +38,6 @@ export default function BuildControls({
     { name: 'Physicals', key: 'physicals' as const },
     { name: 'Shooting', key: 'shooting' as const },
     { name: 'Defense', key: 'defense' as const },
-    { name: 'Rebound', key: 'rebound' as const },
   ];
 
   return (
@@ -70,11 +69,10 @@ export default function BuildControls({
                       <button
                         onClick={() => handleDecrement(stat)}
                         disabled={isAtMin}
-                        className={`p-1 rounded transition-colors ${
-                          isAtMin
-                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                            : 'bg-red-100 text-red-600 hover:bg-red-200'
-                        }`}
+                        className={`p-1 rounded transition-colors ${isAtMin
+                          ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                          : 'bg-red-100 text-red-600 hover:bg-red-200'
+                          }`}
                       >
                         <Minus size={16} />
                       </button>
@@ -88,11 +86,10 @@ export default function BuildControls({
                       <button
                         onClick={() => handleIncrement(stat)}
                         disabled={!canIncrease}
-                        className={`p-1 rounded transition-colors ${
-                          !canIncrease
-                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                            : 'bg-green-100 text-green-600 hover:bg-green-200'
-                        }`}
+                        className={`p-1 rounded transition-colors ${!canIncrease
+                          ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                          : 'bg-green-100 text-green-600 hover:bg-green-200'
+                          }`}
                       >
                         <Plus size={16} />
                       </button>
