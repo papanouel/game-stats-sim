@@ -40,13 +40,24 @@ export default function BuildControls({
     { name: 'Defense', key: 'defense' as const },
   ];
 
+  const CATEGORY_COLORS: Record<string, string> = {
+    finishing: '#fab13c',
+    creativity: '#b5bd2b',
+    shooting: '#7ff0d9',
+    physicals: '#eb7e17',
+    defense: '#c72e68',
+  };
+
   return (
     <div className="bg-[#2a2a2a] rounded-xl shadow-lg border border-gray-800 p-6">
       <h3 className="text-lg font-bold text-gray-100 mb-6">Attribute Allocation</h3>
       <div className="space-y-6">
         {categories.map(category => (
           <div key={category.key}>
-            <h4 className="text-xs font-bold text-indigo-400 mb-3 uppercase tracking-widest border-l-2 border-indigo-500 pl-2">
+            <h4
+              className="text-xs font-bold mb-3 uppercase tracking-widest border-l-2 pl-2"
+              style={{ color: CATEGORY_COLORS[category.key], borderColor: CATEGORY_COLORS[category.key] }}
+            >
               {category.name}
             </h4>
             <div className="space-y-2">
