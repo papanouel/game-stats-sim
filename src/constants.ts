@@ -22,8 +22,8 @@ export const STAT_DISPLAY_NAMES: Record<StatName, string> = {
   layup: 'Layup',
   dunking: 'Dunking',
   paint: 'Paint',
-  dribbleControl: 'Dribble Control',
-  passAccuracy: 'Pass Accuracy',
+  dribbleControl: 'Dribbling',
+  passAccuracy: 'Passing',
   agility: 'Agility',
   speed: 'Speed',
   strength: 'Strength',
@@ -31,9 +31,9 @@ export const STAT_DISPLAY_NAMES: Record<StatName, string> = {
   threePoint: 'Three Point',
   midRange: 'Mid Range',
   freeThrow: 'Free Throw',
-  steal: 'Steal',
-  block: 'Block',
-  rebound: 'Rebound',
+  steal: 'Stealing',
+  block: 'Blocking',
+  rebound: 'Rebounding',
 };
 
 export const CATEGORY_STATS: Record<CategoryName, StatName[]> = {
