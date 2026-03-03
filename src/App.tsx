@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { ArchetypeName, ArchetypeCaps, BuildState, EconomySettings } from './types';
 import { DEFAULT_CAPS } from './constants';
 import { calculateAPSpent, initializeBuild } from './utils/calculations';
+import { exportArchetypesToJson } from './utils/export';
 import ArchetypeCapEditor from './components/ArchetypeCapEditor';
 import EconomyPanel from './components/EconomyPanel';
 import BuildControls from './components/BuildControls';
@@ -110,9 +111,20 @@ function App() {
       case 'archetypes':
         return (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
-            <header>
-              <h2 className="text-2xl font-bold text-gray-100">Archetype Potential</h2>
-              <p className="text-gray-400">Define the maximum potential for each attribute depending on the archetype.</p>
+            <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-100">Archetype Potential</h2>
+                <p className="text-gray-400">Define the maximum potential for each attribute depending on the archetype.</p>
+              </div>
+              <button
+                onClick={() => exportArchetypesToJson(archetypeCaps)}
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition-colors shadow-lg flex items-center gap-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download JSON
+              </button>
             </header>
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
               <div className="xl:col-span-8 bg-[#2a2a2a] rounded-xl shadow-lg border border-gray-800 p-6">
